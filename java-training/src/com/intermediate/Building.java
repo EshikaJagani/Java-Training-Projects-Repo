@@ -1,4 +1,4 @@
-package java_game_code.endsection;
+package com.intermediate;
 
 /*
 Create a Building class

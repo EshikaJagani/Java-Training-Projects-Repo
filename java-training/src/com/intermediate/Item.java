@@ -1,4 +1,4 @@
-package java_game_code.endsection;
+package com.intermediate;
 
 /*
 Create an Item class
@@ -8,7 +8,7 @@ Fields:
 - double value – the item’s value in dollars
 Functions:
 - getName – returns the name of the item
-- getValue – returns the value of the item 
+- getValue – returns the value of the item
 */
 
 public class Item {
@@ -26,5 +26,5 @@ public class Item {
 
     public double getValue() {
         return value;
-    } 
+    }
 }
