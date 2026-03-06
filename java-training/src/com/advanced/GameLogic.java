@@ -181,7 +181,7 @@ public class GameLogic implements Cloneable {
         this.difficulty = diff;
 
         // using toString() to print the game start message with the current date and time
-        System.out.println("------------------------------------------------");
+        System.out.println("-----------------------------------------------------------------");
         System.out.println("Game Started: " + this.toString()); 
 
         // choose chances based on ENUM + MATH FUNCTIONS
@@ -190,7 +190,7 @@ public class GameLogic implements Cloneable {
 
         System.out.println("Difficulty: " + difficulty);
         System.out.println("Chances: " + chances);
-        System.out.println("------------------------------------------------");
+        System.out.println("-----------------------------------------------------------------");
 
         if (!loadWordsFromFile()) return;
 
@@ -275,6 +275,7 @@ public class GameLogic implements Cloneable {
         return true;
     }
 
+    /* 
     // USE split() to allow user to enter words as well, separated by commas, and add them to the words list
     // private void allowUserToAddWords() {
     //     Scanner sc = new Scanner(System.in);
@@ -286,7 +287,7 @@ public class GameLogic implements Cloneable {
     //         String[] extra = input.split(",");   
     //         for (String w : extra) words.add(w.trim());
     //     }
-    // }
+    // }*/
 
     private void selectRandomWord() {
         Random rand = new Random();
