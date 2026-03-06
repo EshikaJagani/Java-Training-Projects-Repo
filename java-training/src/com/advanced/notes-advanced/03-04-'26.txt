@@ -1,0 +1,140 @@
+03-04-'26
+
+JAVA TRAINING - ADVANCED
+
+Agenda:
+- ENUM
+- INNER CLASS
+- TIME TYPES
+- OBJECT CLASS
+- COLLECTIONS
+- GENERICS
+- EXCEPTIONS
+- FILE HANDLING
+
+---------------------------------------------------------------
+
+ENUM
+
+- fixed set of named choices
+- think of it as menu of allowed values
+- eg:
+--- Gear positions: P, R, N, D
+--- Fuel Types: PETROL, DIESEL, ELECTRIC
+--- Color: RED, BLUE, BLACK
+BEST PRACTICES:
+- Use ALL_CAPS names for constants: RED, SPORT, ELECTRIC.
+- Prefer switch or methods on enum instead of if/else chain.
+- Don’t rely on ordinal() for business meaning—order can change.
+- Store data in enum when it’s intrinsic (like octane, mode description).
+- Enums are implicitly final (can’t extend them) and singleton per constant.
+ENUM CANNOT DO:
+- Cannot extend a class (they already extend java.lang.Enum).
+- Enum constructors cannot be public or protected.
+- You cannot new an enum (constants are pre-created and singleton).
+
+---------------------------------------------------------------
+
+INNER CLASSES
+
+- meaning: class inside another class
+- eg, outer class: Car; inner class: SteeringWheel,Engine,MusicSystem
+- the outer class wont make sense wo inner classes
+- eg, a car without steering wheel lol XD
+WHY:
+- To group classes that belong together
+- To logically represent "part-of" relationships
+- To access outer class data easily
+- To hide helper classes from the outside world (encapsulation!)
+4 TYPES:
+1) Non-static inner class: "normal" inner class
+- Part of the object. Needs a Car to exist.
+- Engine belongs to a specific Car.
+when to use:
+- When the inner class needs access to outer class instance fields
+- When it represents a part of the outer class
+- (Engine, Wheel, Door, Battery, etc.)
+
+2) Static nested inner class: like a nested helper
+- Belongs to the class, not an individual car Like a helper class inside Car.
+- eg. Car Manual (not linked to one specific car)
+when to use:
+- When the inner class does NOT need outer class object
+- For utility/helper classes
+- To avoid cluttering the package
+
+3) Local inner class: class inside a method
+-  A class defined inside a method.
+- It lives only inside that method, like a secret helper.
+- eg, Inside startCar() method, we create a temporary helper class.
+when to use:
+- When the class is needed only inside a method
+- To create logic helpers without exposing them elsewhere
+
+4) Anonymous inner class: nameless, quick class
+- A class with no name, created on the spot.
+- Used when you want to make an object with custom behavior just once.
+- eg, Car has an interface called Horn. We create a custom horn sound.
+when to use:
+- For quick one-time custom behavior
+- For event handling, callback-style code
+- For simplifying code without creating separate classes
+
+Inner Class Summary:
+
+inn class type - Meaning      | Needs Car obj? | Use Case
+
+non-static ----- a part of    | Yes	       | Engine, wheel
+		 the car      |		       |
+static --------- belongs to   | No 	       | Manual, Utilities
+		 car class    |		       |
+		 not obj      |		       |	
+method local --- class inside | Method scope   | Small helper used 
+		 a method     |		       | once
+anon ----------- class with   | Usually no     | one-time custom
+		 no name      |		       | behavior
+
+--------------------------------------------------------------------
+
+JDK VS JRE VS JVM
+
+JDK: Garage Tools
+- developers use it
+- it has jre, jvm, javac (compiler), javadoc, jdb (debugger)
+- javac Car.java -> compile to bytecode
+
+JRE: Car
+- jre is everything needed to execute java progs 
+- i has jvm, libs
+- provides libs to run
+
+JVM: Driver
+- jvm runs the java prog
+- runs the .class bytecode
+- execs the bytecode: java Car
+
+Feature --------------- JVM | JRE | JDK
+
+runs java prog -------- Y   | Y   | Y
+has libs -------------- N   | Y   | Y
+has compiler (javac) -- N   | N   | Y
+used by dev ----------- N   | N   | Y
+used by end users ----- N   | Y   | Y 
+
+FLOW:
+java prog--(java compiler)--> java bytecode--(jvm)-->machine code--(cpu)--> O/P
+
+-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+

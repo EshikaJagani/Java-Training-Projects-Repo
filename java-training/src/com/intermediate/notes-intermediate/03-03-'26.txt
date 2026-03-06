@@ -1,0 +1,194 @@
+03-03-'26
+
+JAVA TRAINING - INTERMEDIATE
+
+Scenario: 
+- i want to build a toy car! 
+- what does it come along with?
+--- manual, spare parts, etc.
+
+
+Class: 
+- The manual to build the toy car is "Class"
+
+Object:
+- When the toy car is built, it becomes the object from the manual (class)
+
+Constructor: 
+- the color and make of the car is "constructor"
+- this can be decided only once.. 
+- this is defined inside the class and is called only once
+
+Method:
+- activities that can be done through with car are "Methods"
+- like driving, refueling, honking, etc.
+- these can be called to be executed as many times as possible
+
+-------------------------------------------------------------
+
+Inheritance:
+- e.g., kids get traits from parents
+- Superclass: Parent
+- Subclass: Child
+- is-a relationship: we use inheri on if this rel exists betwn classes
+- method overriding: child behaves differently than parents and overrides the method. same method name, same params but diff behavior
+- types:
+--- single: parent -> child (Car -> electricCar)
+--- multilevel: grandparent -> parent -> child (Vehicle -> Car -> eleCar)
+--- Hierarchical: one parent -> many children (Car -> elec, sports, etc.)
+--- multiple (Java-interfaces, Python allows it): Mom, Dad (multiple parents) -> child
+--- hybrid inheritance: animals -> mammal, egg laying -> mammal: dog, cat ; egg laying: peacock, pigeon
+
+---------------------------------------------------------------
+
+Encapsulation:
+- Hide the car's engine, turn the engine on with just the button
+- keep parts private; use buttons
+- wrapping data in a single unit
+- python uses name-mangling or property (self.__fuel = fuel)
+- Java uses true private fields + getters/setters (throw errors if fuel is negative.. else this.fuel += amount)
+
+-----------------------------------------------------------------
+
+Abstraction:
+- show only what's needed, hide the messy details
+- by doing this, it is easy to use, less prone to mistakes and internals can be changes safely
+- Python: abstract base class to define the what, not the how
+- Java: abstract class + interface
+- You press a Start button; you don’t see fuel injection, sensors, battery management. That complexity is abstracted away.
+
+-----------------------------------------------------------------
+
+Polymorphism:
+- same word, diff behavior depending on who does it..
+- One “call” can behave differently depending on the actual object type.
+- Write flexible code that works with general types, while specific types customize behavior.
+- car drives. but sportscar vs a reg car, shows diff behaviors of cars
+- two forms:
+--- Overriding (runtime): Child redefines a parent method (drive() in SportsCar vs Car).
+--- Overloading (compile-time; Java): Same method name, different parameters.
+- Python: overriding + duck typing
+- Java: overriding + overloading
+
+------------------------------------------------------------------
+
+Mini Scenario + Tiny Cheat Sheet
+
+- Abstraction: 
+--- You have a Vehicle with start/stop—you just call them; internals hidden.
+--- Expose what, hide how.
+
+- Inheritance: 
+--- ElectricCar extends Car to reuse logic, adding charge().
+--- “Is-a” relationship; reuse & specialize.
+
+- Encapsulation: fuel/battery kept private with safe methods to change them.
+--- fuel/battery kept private with safe methods to change them.
+--- Keep data private, expose safe methods.
+
+- Polymorphism: A function race(Vehicle v) calls v.drive()—whether it’s Car, SportsCar, or ElectricCar, each performs its own version.
+--- A function race(Vehicle v) calls v.drive()—whether it’s Car, SportsCar, or ElectricCar, each performs its own version.
+--- Same call, different behaviors.
+
+------------------------------------------------------------------
+
+ACCESS MODIFIERS
+
+Modifier ----- Class | Package | Subclass | World
+
+public ------- Yes   | Yes     | Yes      | Yes
+protected ---- Yes   | Yes     | Yes      | No
+default ------ Yes   | Yes     | No       | No
+private ------ Yes   | No      | No       | No
+
+
+------------------------------------------------------------------
+
+FINAL KEYWORD:
+- var names are ALL CAPS
+- you cant change this
+- one this is set, nobody is allowed to change it
+- final var: cant change value
+- final method: cannot be overridden
+- final class: cannot be inherited
+- eg, car's vin no. cant be changed, so this can be set via constructor and while defining the variable, final keyword must be used.
+
+STATIC KEYWORD:
+- belongs to CLASS and not the object
+- think of it as: "this does not belong to each car; it belongs to the Car factory"
+- static var: shared by ALL Car objects (no need to do obj.var)
+- static method: can be called WITHOUT creating obj (simply do class.var)
+- static block: runs once when the class loads
+
+------------------------------------------------------------------
+
+THE GREAT ROBBERY
+
+Bobby
+- Nickname: The mountain
+- robber
+- task: stealing from supermarket, bank, mansion, post office
+
+Rob
+- Nickname: The head
+- robber
+- task: stealing from supermarket, bank, mansion, post office
+
+Adam Palmer
+- Nickname: Coyote
+- detective
+- task: catch the robbers
+
+
+2 Bases
+Base 1: 
+- build classes for person, detective, building 
+Base 2: 
+- connect with the base classes like Gang, Police, TheGreatRobberyApp class
+
+
+Class: Person
+
+Abstract Superclass
+attr: name, nickname, year of born, expert in, items
+func: getName(), getNickname(), printBioData()
+
+
+Class: Criminal (extends Person class)
+
+attr: SUCCESS_PERCENTAGE (final static variable)
+func: printBioData()
+
+Class: Detective (extends Person class)
+
+attr: SUCCESS_PERCENTAGE (final static variable)
+func: printBioData()
+
+
+Class: Item
+
+attr: name, value
+func: getName(), getValue()
+
+
+Class: Building
+
+attr: name, items
+func: getName(), getItems()
+
+
+Class: City
+
+attr: buildings
+func: getBuildings()
+
+
+
+
+
+
+
+
+
+
+
