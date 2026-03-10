@@ -1,4 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Spring Boot parent -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>4.0.3</version>
+        <relativePath/>
+    </parent>
+
+    <!-- Your coordinates -->
+    <groupId>com.objective3</groupId>
+    <artifactId>hangman</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>hangman</name>
+    <description>Hangman project for Spring Boot</description>
+
+    <properties>
+        <!-- Your JDK version -->
+        <java.version>25</java.version>
+    </properties>
+
+    <dependencies>
+
+        <!-- 🌟 Correct Starter for REST APIs (includes Jackson, Tomcat, etc.) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- 🌟 Bean Validation (Jakarta @Valid, @NotBlank, @Pattern) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- 🌟 Correct Test Starter (gives you: WebMvcTest, MockMvc, Mockito, ObjectMapper, JUnit 5) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <!-- Needed for Spring Boot JAR + spring-boot:run -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- Ensure Maven compiles with your exact Java version -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <release>${java.version}</release>
+                    <parameters>true</parameters>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
+
+<!-- <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -6,13 +79,13 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>4.0.3</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 	<groupId>com.objective3</groupId>
-	<artifactId>hangman-api</artifactId>
+	<artifactId>hangman</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>hangman-api</name>
-	<description>Hangman API project for Spring Boot</description>
+	<name>hangman</name>
+	<description>Hangman project for Spring Boot</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -57,4 +130,4 @@
 		</plugins>
 	</build>
 
-</project>
+</project> -->

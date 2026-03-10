@@ -25,7 +25,8 @@ public class HangmanController {
 
     /** Create a new game and return the generated gameId */
     @PostMapping("/start")
-    public ResponseEntity<String> start(@RequestParam Difficulty difficulty) {
+//    public ResponseEntity<String> start(@RequestParam Difficulty difficulty) {
+    public ResponseEntity<String> start(@RequestParam("difficulty") Difficulty difficulty) {
         String gameId = service.createGame(difficulty);
         return ResponseEntity.ok(gameId);
     }
