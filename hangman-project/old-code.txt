@@ -1,0 +1,184 @@
+package.json:
+
+/*{
+  "name": "hangman-ui",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fontsource/creepster": "^5.2.7",
+    "@fontsource/jetbrains-mono": "^5.2.8",
+    "axios": "^1.13.6",
+    "framer-motion": "^12.35.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.13.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.48.0",
+    "vite": "^7.3.1"
+  }
+}
+*/
+
+HangmanCanvas.txt
+
+import React, { useMemo } from "react";
+
+
+import Base from "./parts/Base";
+import Pole from "./parts/Pole";
+import Rope from "./parts/Rope";
+import Head from "./parts/Head";
+import Body from "./parts/Body";
+import ArmLeft from "./parts/ArmLeft";
+import ArmRight from "./parts/ArmRight";
+import LegLeft from "./parts/LegLeft";
+import LegRight from "./parts/LegRight";
+import { SvgDefs } from "./parts/common";
+
+
+export type Difficulty = "EASY" | "MEDIUM" | "HARD";
+
+/**
+ * Your exact progression (by step) for each difficulty.
+ * Each step can reveal one or more parts.
+ */
+const EASY_STEPS = [
+  ["Base", "Pole"],
+  ["Rope"],
+  ["Head"],
+  ["Body"],
+  ["ArmLeft"],
+  ["ArmRight"],
+  ["LegLeft"],
+  ["LegRight"],
+];
+
+const MEDIUM_STEPS = [
+  ["Base", "Pole", "Rope"],
+  ["Head"],
+  ["Body"],
+  ["ArmLeft"],
+  ["ArmRight"],
+  ["LegLeft", "LegRight"],
+];
+
+const HARD_STEPS = [
+  ["Base", "Pole", "Rope"],
+  ["Head", "Body"],
+  ["ArmLeft", "ArmRight"],
+  ["LegLeft", "LegRight"],
+];
+
+const STEPS: Record<Difficulty, string[][]> = {
+  EASY: EASY_STEPS,
+  MEDIUM: MEDIUM_STEPS,
+  HARD: HARD_STEPS,
+};
+
+type Props = {
+  difficulty: Difficulty;
+  mistakes: number;      // current wrong guesses
+  maxMistakes: number;   // taken from backend
+};
+
+/**
+ * Returns the set of visible parts based on mistakes so far.
+ */
+
+function useVisibleParts(difficulty: Difficulty, mistakes: number) {
+  return useMemo(() => {
+    const seq = STEPS[difficulty] || EASY_STEPS;
+    const parts = new Set<string>();
+
+    for (let i = 0; i < Math.min(mistakes, seq.length); i++) {
+      for (const p of seq[i]) parts.add(p);
+    }
+    return parts;
+  }, [difficulty, mistakes]);
+}
+
+/*function useVisibleParts(difficulty: Difficulty, mistakes: number) {
+  return useMemo(() => {
+    const sequence = STEPS[difficulty] ?? EASY_STEPS;
+    const parts: Set<string> = new Set();
+    // mistakes is how many wrong guesses have happened.
+    // Reveal that many steps.
+    for (let i = 0; i < Math.min(mistakes, sequence.length); i++) {
+      for (const p of sequence[i]) parts.add(p);
+    }
+    return parts;
+  }, [difficulty, mistakes]);
+}*/
+
+const frame: React.CSSProperties = {
+  position: "relative",
+  width: "100%",
+  minHeight: 360,
+  borderRadius: 12,
+  border: "1px dashed rgba(148,0,255,0.35)",
+  boxShadow: "inset 0 0 28px rgba(148,0,255,0.14)",
+  overflow: "hidden",
+  background:
+    "radial-gradient(60% 80% at 50% 35%, rgba(148,0,255,0.08), rgba(10,0,20,0.8))",
+};
+
+/**
+ * For now, this component only shows which parts WOULD be visible (to prove logic works).
+ * In the NEXT BATCH we will:
+ *  - render the blurred chibi silhouette (full-doll faint in background)
+ *  - draw each cute-horror part as neon shapes
+ *  - fade-reveal parts according to `visibleParts`
+ */
+export default function HangmanCanvas({ difficulty, mistakes, maxMistakes }: Props) {
+  const visibleParts = useVisibleParts(difficulty, mistakes);
+  const stepCount = STEPS[difficulty].length;
+
+  return (
+    <div style={frame} aria-label="Hangman ritual chamber">
+      {/* Placeholder logic view */}
+      <div
+        style={{
+          position: "absolute",
+          top: 12,
+          left: 12,
+          color: "var(--neon-green)",
+          textShadow: "var(--glow-green)",
+          fontFamily: "var(--font-clean)",
+          fontSize: 14,
+          opacity: 0.9,
+        }}
+      >
+        <div><b>Difficulty:</b> {difficulty}</div>
+        <div><b>Mistakes:</b> {mistakes}/{maxMistakes}</div>
+        <div><b>Steps:</b> {stepCount}</div>
+        <div style={{ marginTop: 8 }}>
+          <b>Visible parts:</b>{" "}
+          {[...visibleParts].join(", ") || "(none yet)"}
+        </div>
+      </div>
+
+      {/* NEXT BATCH: 
+          - Blurred silhouette (full doll, faint purple)
+          - Each part rendered as a silky neon shape, fading in when visible
+      */}
+    </div>
+  );
+}

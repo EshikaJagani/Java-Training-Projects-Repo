@@ -1,4 +1,49 @@
-/* variables for neon purple/green theme */
+:root {
+  --bg-dark: #0b001f;
+  --bg-darker: #050011;
+
+  --purple: #9400ff;
+  --neon-green: #7cffb2;
+  
+  --glow-purple: 0 0 8px #9400ff, 0 0 16px #9400ff, 0 0 24px #9400ff;
+  --glow-green: 0 0 8px #7cffb2, 0 0 16px #7cffb2;
+
+  --font-creepy: "Creepster", cursive;
+  --font-clean: "JetBrains Mono", monospace;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, var(--bg-dark), var(--bg-darker));
+  color: var(--neon-green);
+  font-family: var(--font-clean);
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  color: var(--purple);
+  text-shadow: var(--glow-purple);
+  font-family: var(--font-creepy);
+  letter-spacing: 2px;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Utility Glow Classes */
+.glow-purple {
+  text-shadow: var(--glow-purple);
+  color: var(--purple);
+}
+
+.glow-green {
+  text-shadow: var(--glow-green);
+  color: var(--neon-green);
+}
+
+/* variables for neon purple/green theme
 
 :root {
   --bg: #0a0a0a;
@@ -17,4 +62,4 @@ body {
   background: var(--bg);
   color: var(--neon-green);
   font-family: var(--font-mono);
-}
+} */
