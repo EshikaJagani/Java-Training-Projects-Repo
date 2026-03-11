@@ -1,0 +1,91 @@
+/* ===== Neon Horror Animations & Utilities ===== */
+
+@keyframes neon-flicker {
+  0%   { opacity: 0.95; filter: drop-shadow(0 0 8px rgba(148,0,255,0.6)); }
+  5%   { opacity: 0.70; filter: drop-shadow(0 0 4px rgba(148,0,255,0.3)); }
+  7%   { opacity: 0.98; filter: drop-shadow(0 0 12px rgba(148,0,255,0.8)); }
+  12%  { opacity: 0.65; filter: drop-shadow(0 0 3px rgba(148,0,255,0.25)); }
+  18%  { opacity: 0.92; }
+  25%  { opacity: 1; }
+  40%  { opacity: 0.9; }
+  50%  { opacity: 0.97; }
+  60%  { opacity: 0.82; }
+  72%  { opacity: 0.96; }
+  85%  { opacity: 1; }
+  100% { opacity: 0.98; }
+}
+
+@keyframes aura-pulse {
+  0%   { box-shadow: 0 0 18px rgba(148,0,255,0.35), inset 0 0 18px rgba(124,255,178,0.1); }
+  50%  { box-shadow: 0 0 28px rgba(148,0,255,0.55), inset 0 0 26px rgba(124,255,178,0.2); }
+  100% { box-shadow: 0 0 18px rgba(148,0,255,0.35), inset 0 0 18px rgba(124,255,178,0.1); }
+}
+
+@keyframes float-slow {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-3px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Apply to elements that should flicker slightly (e.g., skull icon) */
+.flicker-purple {
+  animation: neon-flicker 2.4s infinite steps(60, end);
+}
+
+/* A soft aura pulse for panels */
+.aura {
+  animation: aura-pulse 3.6s ease-in-out infinite;
+}
+
+/* Subtle float for spooky things */
+.float {
+  animation: float-slow 3.4s ease-in-out infinite;
+}
+
+/* Fullscreen dark overlay for defeat */
+.lose-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(70% 70% at 50% 35%, rgba(15,0,30,0.75), rgba(0,0,0,0.88));
+  display: grid;
+  place-items: center;
+  z-index: 8;
+  backdrop-filter: blur(1.5px);
+}
+
+/* Inner card */
+.lose-card {
+  width: min(760px, 92vw);
+  border-radius: 18px;
+  border: 1px solid rgba(148,0,255,0.35);
+  background: radial-gradient(60% 70% at 50% 30%, rgba(148,0,255,0.2), rgba(10,0,20,0.9));
+  padding: 2rem 1.6rem;
+  text-align: center;
+  box-shadow: 0 0 24px rgba(148,0,255,0.25), inset 0 0 24px rgba(124,255,178,0.08);
+}
+
+/* Title text */
+.lose-title {
+  font-family: var(--font-creepy);
+  color: var(--purple);
+  text-shadow: var(--glow-purple);
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+  margin: 0 0 0.5rem 0;
+  letter-spacing: 2px;
+}
+
+/* Subtitle */
+.lose-sub {
+  color: var(--neon-green);
+  text-shadow: var(--glow-green);
+  margin: 0.25rem 0 1rem 0;
+}
+
+/* Button row */
+.lose-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 1rem;
+}

@@ -4,6 +4,8 @@ import Keyboard from "../components/Keyboard";
 import type { GameStateResponse } from "../types/GameState";
 import NeonButton from "../components/NeonButton";
 import HangmanCanvas from "../components/HangmanStage/HangmanCanvas";
+import SkullLoseScreen from "../components/SkullLoseScreen";
+import { startGame as apiStart, fetchState as apiState, sendGuess as apiGuess } from "../api/hangmanAPI";
 
 // Reuse Difficulty type from the selector to keep it consistent
 type Difficulty = "EASY" | "MEDIUM" | "HARD";
@@ -95,6 +97,17 @@ export default function Game() {
 
   // --- Backend calls (inline for now; we’ll move them to src/api soon) ---
   async function startGame(d: Difficulty) {
+  return apiStart(d);
+}
+
+async function fetchState(id: string) {
+  return apiState(id);
+}
+
+async function postGuess(id: string, letter: string) {
+  return apiGuess(id, letter);
+}
+  /*async function startGame(d: Difficulty) {
     const res = await fetch(`/api/hangman/start?difficulty=${encodeURIComponent(d)}`, {
       method: "POST",
     });
@@ -119,7 +132,7 @@ export default function Game() {
     if (!res.ok) throw new Error(`Guess failed: ${res.status}`);
     const data = (await res.json()) as GameStateResponse;
     return data;
-  }
+  }*/
   // ----------------------------------------------------------------------
 
   // Start a new game on mount or if difficulty changes (user navigated back)
@@ -214,35 +227,42 @@ export default function Game() {
           </div>
         </div> */}
         <div style={{ position: "relative" }}>
-  <HangmanCanvas
-    difficulty={difficulty}
-    mistakes={state?.mistakes ?? 0}
-    maxMistakes={state?.maxMistakes ?? 8}
-  />
+          <HangmanCanvas
+            difficulty={difficulty}
+            mistakes={state?.mistakes ?? 0}
+            maxMistakes={state?.maxMistakes ?? 8}
+          />
 
-  {/* If game over on loss, show a subtle overlay to go to Game Over page */}
-  {state?.gameOver && !state?.win && (
-    <div
-      style={{
-        position: "absolute",
-        bottom: 12,
-        right: 12,
-        display: "flex",
-        gap: 8,
-      }}
-    >
-      <NeonButton
-        variant="purple"
-        onClick={() =>
-          // pass current query so GameOver can restart with same difficulty
-          navigate("/game-over", {
-            state: { queryString: window.location.search.replace(/^\?/, "") },
-          })
-        }
-      >
-        Continue
-      </NeonButton>
-    </div>
+          {/* If game over on loss, show a subtle overlay to go to Game Over page */}
+          {state?.gameOver && !state?.win && (
+    
+          <SkullLoseScreen
+          difficulty={difficulty}
+          onRetry={handleRestart}
+          onHome={() => navigate("/")}
+        />
+
+    // <div
+    //   style={{
+    //     position: "absolute",
+    //     bottom: 12,
+    //     right: 12,
+    //     display: "flex",
+    //     gap: 8,
+    //   }}
+    // >
+    //   <NeonButton
+    //     variant="purple"
+    //     onClick={() =>
+    //       // pass current query so GameOver can restart with same difficulty
+    //       navigate("/game-over", {
+    //         state: { queryString: window.location.search.replace(/^\?/, "") },
+    //       })
+    //     }
+    //   >
+    //     Continue
+    //   </NeonButton>
+    // </div>
   )}
 </div>
 
