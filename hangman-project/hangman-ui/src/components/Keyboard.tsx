@@ -1,0 +1,1 @@
+// for A-Z keys in purple UI
