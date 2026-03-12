@@ -5,7 +5,13 @@ import type { GameStateResponse } from "../types/GameState";
 import NeonButton from "../components/NeonButton";
 import HangmanCanvas from "../components/HangmanStage/HangmanCanvas";
 import SkullLoseScreen from "../components/SkullLoseScreen";
-import { startGame as apiStart, fetchState as apiState, sendGuess as apiGuess } from "../api/hangmanAPI";
+// import { startGame as apiStart, fetchState as apiState, sendGuess as apiGuess } from "../api/hangmanAPI";
+import {
+  startGame as apiStart,
+  fetchState as apiState,
+  sendGuess as apiGuess,
+  deleteGame as apiDelete,
+} from "../api/hangmanAPI";
 
 // Reuse Difficulty type from the selector to keep it consistent
 type Difficulty = "EASY" | "MEDIUM" | "HARD";
@@ -175,6 +181,31 @@ async function postGuess(id: string, letter: string) {
   }
 
   // Restart (same difficulty)
+  /*
+  async function handleRestart() {
+  try {
+    setLoading(true);
+
+    // 1) tiny delete operation
+    if (gameId) {
+      await apiDelete(gameId);
+    }
+
+    // 2) create a brand‑new game
+    const id = await startGame(difficulty);
+    setGameId(id);
+
+    const s = await fetchState(id);
+    setState(s);
+
+    setGuessed(new Set());
+  } catch (e) {
+    console.error(e);
+    alert("Failed to restart.");
+  } finally {
+    setLoading(false);
+  }
+}*/
   async function handleRestart() {
     try {
       setLoading(true);
@@ -190,6 +221,17 @@ async function postGuess(id: string, letter: string) {
       setLoading(false);
     }
   }
+  async function handleExit() {
+  try {
+    if (gameId) {
+      await apiDelete(gameId); // tiny delete operation
+    }
+  } catch (e) {
+    console.warn("Delete failed on exit, but continuing anyway.", e);
+  } finally {
+    navigate("/");
+  }
+}
 
   const mistakesInfo =
     state ? `${state.mistakes}/${state.maxMistakes}` : "0/?";
@@ -209,7 +251,10 @@ async function postGuess(id: string, letter: string) {
           <NeonButton variant="green" onClick={handleRestart} ariaLabel="Restart game">
             Restart
           </NeonButton>
-          <NeonButton variant="purple" onClick={() => navigate("/")} ariaLabel="Back to home">
+          {/* <NeonButton variant="purple" onClick={() => navigate("/")} ariaLabel="Back to home">
+            Exit
+          </NeonButton> */}
+          <NeonButton variant="purple" onClick={handleExit} ariaLabel="Back to home">
             Exit
           </NeonButton>
         </div>
@@ -288,7 +333,7 @@ async function postGuess(id: string, letter: string) {
                 background: "linear-gradient(180deg, rgba(10,10,10,0.8), rgba(0,0,0,0.55))",
               }}
             >
-              {state.win ? "You survived the ritual. 🎉" : "The ritual consumed the doll. ❌"}
+              {state.win ? "You saved the doll! 🎉" : "The ritual consumed the doll. ❌"}
             </div>
           )}
         </div>

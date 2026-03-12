@@ -9,9 +9,9 @@ import "@fontsource/creepster";
 import "@fontsource/jetbrains-mono";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <App />
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // import { StrictMode } from 'react'

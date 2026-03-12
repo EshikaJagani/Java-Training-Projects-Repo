@@ -20,11 +20,22 @@ export async function startGame(difficulty: string): Promise<string> {
   return res.text();
 }
 
+export async function deleteGame(gameId: string) {
+  const res = await fetch(`/api/hangman/${encodeURIComponent(gameId)}`, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to delete game (HTTP ${res.status})`);
+  }
+}
+
 export async function fetchState(gameId: string) {
   const res = await fetch(url(`/api/hangman/${encodeURIComponent(gameId)}/state`));
   if (!res.ok) throw new Error(`Failed to fetch state (HTTP ${res.status})`);
   return res.json();
 }
+
 
 export async function sendGuess(gameId: string, letter: string) {
   const res = await fetch(
