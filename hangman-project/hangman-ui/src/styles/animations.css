@@ -29,7 +29,11 @@
 
 /* Apply to elements that should flicker slightly (e.g., skull icon) */
 .flicker-purple {
-  animation: neon-flicker 2.4s infinite steps(60, end);
+  /* animation: neon-flicker 2.4s infinite steps(60, end); */
+  animation: neon-flicker-strong 2.2s infinite steps(70, end);
+  filter: drop-shadow(0 0 25px #d300ff) brightness(1.4);
+  opacity: 1 !important;
+
 }
 
 /* A soft aura pulse for panels */
@@ -39,8 +43,17 @@
 
 /* Subtle float for spooky things */
 .float {
-  animation: float-slow 3.4s ease-in-out infinite;
+  /* animation: float-slow 3.4s ease-in-out infinite; */
+  animation: float-slow-strong 1.5s ease-in-out infinite;
 }
+
+/* to make skull motion more visible */
+@keyframes float-slow-strong {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
 
 /* Fullscreen dark overlay for defeat */
 .lose-overlay {
