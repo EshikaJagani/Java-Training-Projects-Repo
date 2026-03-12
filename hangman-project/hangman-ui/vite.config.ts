@@ -5,14 +5,14 @@ import react from "@vitejs/plugin-react";
 // No CORS issues. No manual headers.
 export default defineConfig({
   plugins: [react()],
-  server: {
-    proxy: {
-      "/api": {
-        target: "http://localhost:8080",
-        changeOrigin: true,
-      },
-    },
-  },
+  // server: {
+  //   proxy: {
+  //     "/api": {
+  //       target: "http://localhost:8080",
+  //       changeOrigin: true,
+  //     },
+  //   },
+  // },
 });
 
 // import { defineConfig } from 'vite'

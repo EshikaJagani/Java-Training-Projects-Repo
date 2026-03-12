@@ -197,7 +197,7 @@ export default function Home() {
       <section style={leftCol}>
         <h1 style={title}>THE HANGMAN</h1>
         <p style={subtitle}>
-          A cute‑horror ritual in neon purple. Choose your fate and begin.
+          Welcome to the horror ritual of word guessing. Choose your fate and begin.
         </p>
 
         <div style={panel}>

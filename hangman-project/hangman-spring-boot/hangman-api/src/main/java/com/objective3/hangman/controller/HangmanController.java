@@ -10,11 +10,14 @@ import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/hangman")
-@CrossOrigin(origins = "http://localhost:3000") // handy later if when I add React
+// @CrossOrigin(origins = "http://localhost:3000") // handy later if when I add React
 public class HangmanController {
 
     private final HangmanService service;

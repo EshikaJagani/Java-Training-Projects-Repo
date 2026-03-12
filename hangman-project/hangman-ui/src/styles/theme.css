@@ -5,7 +5,8 @@
   --purple: #9400ff;
   --neon-green: #7cffb2;
   
-  --glow-purple: 0 0 8px #9400ff, 0 0 16px #9400ff, 0 0 24px #9400ff;
+  /* --glow-purple: 0 0 8px #9400ff, 0 0 16px #9400ff, 0 0 24px #9400ff; */
+  --glow-purple: 0 0 4px #9400ff, 0 0 8px #9400ff;
   --glow-green: 0 0 8px #7cffb2, 0 0 16px #7cffb2;
 
   --font-creepy: "Creepster", cursive;
