@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NeonButton from "../components/NeonButton";
 import DifficultySelector, { type Difficulty } from "../components/DifficultySelector";
+import { registerPlayer } from "../api/hangmanAPI";
 
 const container: React.CSSProperties = {
   minHeight: "100dvh",
@@ -190,6 +191,7 @@ function ChibiDollPreview() {
 export default function Home() {
   const [difficulty, setDifficulty] = useState<Difficulty>("EASY");
   const navigate = useNavigate();
+  const [playerName, setPlayerName] = useState("");
 
   return (
     <main style={container}>
@@ -201,6 +203,22 @@ export default function Home() {
         </p>
 
         <div style={panel}>
+          <input
+            type="text"
+            placeholder="Enter player name"
+            value={playerName}
+            onChange={(e) => setPlayerName(e.target.value)}
+            style={{
+              padding: "0.6rem 0.8rem",
+              borderRadius: 8,
+              border: "1px solid var(--purple)",
+              background: "rgba(0,0,0,0.45)",
+              color: "var(--neon-green)",
+              textShadow: "var(--glow-green)",
+              fontFamily: "var(--font-clean)",
+              letterSpacing: 0.5,
+            }}
+          />
           <DifficultySelector
             value={difficulty}
             onChange={setDifficulty}
@@ -210,10 +228,31 @@ export default function Home() {
           <NeonButton
             variant="purple"
             fullWidth
-            onClick={() => navigate(`/game?difficulty=${difficulty}`)}
+            // onClick={() => navigate(`/game?difficulty=${difficulty}`)}
+            onClick={async () => {
+              if (!playerName.trim()) {
+                alert("Please enter your name before starting!");
+                return;
+              }
+
+              const player = await registerPlayer(playerName.trim());
+
+              // save playerId + name for later (high scores)
+              localStorage.setItem("playerId", player.id);
+              localStorage.setItem("playerName", player.name);
+
+              navigate(`/game?difficulty=${difficulty}`);
+            }}
             ariaLabel="Begin Ritual"
           >
             BEGIN RITUAL
+          </NeonButton>
+          <NeonButton
+            variant="green"
+            fullWidth
+            onClick={() => navigate("/leaderboard")}
+          >
+            VIEW LEADERBOARD
           </NeonButton>
         </div>
       </section>

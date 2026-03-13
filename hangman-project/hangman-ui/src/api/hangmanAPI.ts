@@ -6,7 +6,7 @@
 
 const BASE = import.meta.env.VITE_API_BASE?.toString().trim();
 
-function url(path: string) {
+export function url(path: string) {
   if (BASE) return `${BASE}${path}`;
   return path; // fallback: relative path
 }
@@ -46,8 +46,13 @@ export async function sendGuess(
   if (opts?.playerName) params.set("playerName", opts.playerName);
   if (opts?.startTime)  params.set("startTime", String(opts.startTime));
 
+  
+  const urlFinal =
+    url(`/api/hangman/${encodeURIComponent(gameId)}/guess`) +
+    (params.toString() ? `?${params.toString()}` : "");
+
   const res = await fetch(
-    url(`/api/hangman/${encodeURIComponent(gameId)}/guess` + (params.toString() ? `?${params}` : "")),
+    urlFinal,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -56,6 +61,16 @@ export async function sendGuess(
   );
   if (!res.ok) throw new Error(`Failed to guess letter (HTTP ${res.status})`);
   return res.json();
+}
+
+export async function registerPlayer(name: string) {
+  const res = await fetch(
+    url(`/api/players/register?name=${encodeURIComponent(name)}`),
+    { method: "POST" }
+  );
+
+  if (!res.ok) throw new Error(`Failed to register player (HTTP ${res.status})`);
+  return res.json(); // returns { id, name, createdAt }
 }
 
 /*export async function sendGuess(gameId: string, letter: string) {

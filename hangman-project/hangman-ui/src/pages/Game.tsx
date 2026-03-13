@@ -5,6 +5,7 @@ import type { GameStateResponse } from "../types/GameState";
 import NeonButton from "../components/NeonButton";
 import HangmanCanvas from "../components/HangmanStage/HangmanCanvas";
 import SkullLoseScreen from "../components/SkullLoseScreen";
+
 // import { startGame as apiStart, fetchState as apiState, sendGuess as apiGuess } from "../api/hangmanAPI";
 import {
   startGame as apiStart,
@@ -12,6 +13,7 @@ import {
   sendGuess as apiGuess,
   deleteGame as apiDelete,
 } from "../api/hangmanAPI";
+
 
 // Reuse Difficulty type from the selector to keep it consistent
 type Difficulty = "EASY" | "MEDIUM" | "HARD";
@@ -100,6 +102,10 @@ export default function Game() {
   const [state, setState] = useState<GameStateResponse | null>(null);
   const [guessed, setGuessed] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState<boolean>(false);
+  const [startTime, setStartTime] = useState<number>(Date.now());
+
+  const playerId = localStorage.getItem("playerId") || "anonymous";
+  const playerName = localStorage.getItem("playerName") || "Anonymous";
 
   // --- Backend calls (inline for now; we’ll move them to src/api soon) ---
   async function startGame(d: Difficulty) {
@@ -110,8 +116,15 @@ async function fetchState(id: string) {
   return apiState(id);
 }
 
-async function postGuess(id: string, letter: string) {
+/*async function postGuess(id: string, letter: string) {
   return apiGuess(id, letter);
+}*/
+async function postGuess(
+  id: string,
+  letter: string,
+  opts?: { playerId?: string; playerName?: string; startTime?: number }
+) {
+  return apiGuess(id, letter, opts);
 }
   /*async function startGame(d: Difficulty) {
     const res = await fetch(`/api/hangman/start?difficulty=${encodeURIComponent(d)}`, {
@@ -148,6 +161,7 @@ async function postGuess(id: string, letter: string) {
         setLoading(true);
         const id = await startGame(difficulty);
         setGameId(id);
+        setStartTime(Date.now());
         const s = await fetchState(id);
         setState(s);
         setGuessed(new Set());
@@ -169,7 +183,15 @@ async function postGuess(id: string, letter: string) {
 
     try {
       setLoading(true);
-      const next = await postGuess(gameId, letter);
+      // const next = await postGuess(gameId, letter);
+      const playerId = localStorage.getItem("playerId") || "anonymous";
+      const playerName = localStorage.getItem("playerName") || "Anonymous";
+      // const next = await postGuess(gameId, letter, {
+      const next = await apiGuess(gameId, letter, {
+        playerId,
+        playerName,
+        startTime
+      });
       setState(next);
       setGuessed((prev) => new Set(prev).add(letter.toUpperCase()));
     } catch (e) {
@@ -211,6 +233,7 @@ async function postGuess(id: string, letter: string) {
       setLoading(true);
       const id = await startGame(difficulty);
       setGameId(id);
+      setStartTime(Date.now());
       const s = await fetchState(id);
       setState(s);
       setGuessed(new Set());
@@ -243,6 +266,12 @@ async function postGuess(id: string, letter: string) {
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <span style={{ ...statPill, borderColor: "rgba(148,0,255,0.45)" }}>
             Difficulty: <b style={{ marginLeft: 6, color: "var(--purple)" }}>{difficulty}</b>
+          </span>
+          <span style={statPill}>
+            Player:{" "}
+            <b style={{ marginLeft: 6, color: "var(--neon-green)" }}>
+              {localStorage.getItem("playerName") || "Anonymous"}
+            </b>
           </span>
           <span style={statPill}>Mistakes: <b style={{ marginLeft: 6 }}>{mistakesInfo}</b></span>
         </div>
@@ -280,9 +309,10 @@ async function postGuess(id: string, letter: string) {
 
           {/* If game over on loss, show a subtle overlay to go to Game Over page */}
           {state?.gameOver && !state?.win && (
-    
           <SkullLoseScreen
           difficulty={difficulty}
+          mistakes = {state?.mistakes ?? 0}
+          startTime={startTime}
           onRetry={handleRestart}
           onHome={() => navigate("/")}
         />

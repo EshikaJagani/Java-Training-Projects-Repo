@@ -15,6 +15,7 @@ public class WordSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        try{
         if (wordService.getAllWords().isEmpty()) {
             wordService.addWord("GALAXY");
             wordService.addWord("NEBULA");
@@ -28,4 +29,9 @@ public class WordSeeder implements CommandLineRunner {
             System.out.println("Words collection already has data. Skipping seeding.");
         }
     }
+catch (Exception e) {
+      System.err.println("⚠️ Mongo not reachable during seed. Skipping. Cause: " + e.getMessage());
+      // DO NOT rethrow — let app start without seeding
+    }
+}
 }
