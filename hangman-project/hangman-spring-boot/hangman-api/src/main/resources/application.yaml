@@ -2,13 +2,35 @@ server:
   port: 8080
 
 spring:
+  data:
+    mongodb:
+      uri: "mongodb+srv://hangman_db_user:pswdhangman@cluster0.ui1h43r.mongodb.net/hangman_db?retryWrites=true&w=majority"
   main:
     banner-mode: console
 
 logging:
   level:
     root: info
-    org.springframework.web: info
+    org.springframework.data.mongodb: info
+
+
+
+
+# server:
+#   port: 8080
+
+# spring:
+#   data:
+#     mongodb:
+#       uri: "mongodb+srv://hangman_db_user:pswdhangman@cluster0.ui1h43r.mongodb.net/hangman_db?retryWrites=true&w=majority"
+#   main:
+#     banner-mode: console
+
+# logging:
+#   level:
+#     root: info
+#     # org.springframework.web: info
+#     org.springframework.data.mongodb: INFO
 
 
 # spring:

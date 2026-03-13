@@ -19,6 +19,12 @@ public class GameLogic implements Cloneable {
     private int maxMistakes;
     private Difficulty difficulty;
 
+    // NEW: Allow HangmanService to inject MongoDB words
+    public GameLogic(List<String> words) {
+    this.words.clear();
+    this.words.addAll(words);
+    }
+
     public void startGame(Difficulty diff) {
         this.difficulty = diff;
         this.maxMistakes = switch (diff) {
@@ -28,8 +34,11 @@ public class GameLogic implements Cloneable {
         };
         this.mistakes = 0;
 
-        if (!loadWordsFromClasspath()) {
-            throw new IllegalStateException("Could not load words.txt from resources");
+        // if (!loadWordsFromClasspath()) {
+        //     throw new IllegalStateException("Could not load words.txt from resources");
+        // }
+        if (words.isEmpty()) {
+            throw new IllegalStateException("Words list is empty — ensure MongoDB is seeded");
         }
         selectRandomWord();
         setupGuessingArray();

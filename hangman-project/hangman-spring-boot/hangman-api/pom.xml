@@ -29,6 +29,10 @@
         <!-- 🌟 Correct Starter for REST APIs (includes Jackson, Tomcat, etc.) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 

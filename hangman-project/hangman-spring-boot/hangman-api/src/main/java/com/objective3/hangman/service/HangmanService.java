@@ -13,18 +13,40 @@ import java.util.UUID;
 @Service
 public class HangmanService {
 
+    private final WordService wordService;
+
     private final HangmanRepository repository;
 
-    public HangmanService(HangmanRepository repository) {
-        this.repository = repository;
-    }
+    // public HangmanService(HangmanRepository repository) {
+    //     this.repository = repository;
+    // }
+    public HangmanService(HangmanRepository repository, WordService wordService) {
+    this.repository = repository;
+    this.wordService = wordService;
+}
 
     public String createGame(Difficulty difficulty) {
-        GameLogic game = new GameLogic();
-        game.startGame(difficulty); // loads words and initializes arrays
-        String id = UUID.randomUUID().toString();
-        repository.save(id, game);
-        return id;
+        // GameLogic game = new GameLogic();
+        // game.startGame(difficulty); // loads words and initializes arrays
+        // 1. Get ALL words from MongoDB
+        List<String> words = wordService.getAllWords()
+                                .stream()
+                                .map(w -> w.getText())
+                                .toList();
+        
+        if (words.isEmpty()) {
+            throw new RuntimeException("No words found in MongoDB. Please insert words.");
+        }
+
+
+        // 2. Create GameLogic with DB words
+        GameLogic game = new GameLogic(words);
+
+        // 3. Start the game (difficulty sets max mistakes)
+        game.startGame(difficulty);
+            String id = UUID.randomUUID().toString();
+            repository.save(id, game);
+            return id;
     }
 
     public GameStateResponse guess(String gameId, char letter) {

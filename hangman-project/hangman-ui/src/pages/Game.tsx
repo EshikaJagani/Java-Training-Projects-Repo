@@ -333,7 +333,7 @@ async function postGuess(id: string, letter: string) {
                 background: "linear-gradient(180deg, rgba(10,10,10,0.8), rgba(0,0,0,0.55))",
               }}
             >
-              {state.win ? "You saved the doll! 🎉" : "The ritual consumed the doll. ❌"}
+              {state.win ? "The curse has lifted... for now. 💀" : "The ritual consumed the doll. ❌"}
             </div>
           )}
         </div>
