@@ -17,6 +17,10 @@ public class GameStateResponse {
         this.gameOver = gameOver;
     }
 
+    // public boolean isGameOver() { return gameOver;}
+
+    // public boolean isWin() { return win;}
+
     public String getProgress() { return progress; }
     public int getMistakes() { return mistakes; }
     public int getMaxMistakes() { return maxMistakes; }
@@ -28,6 +32,10 @@ public class GameStateResponse {
     public void setMaxMistakes(int maxMistakes) { this.maxMistakes = maxMistakes; }
     public void setWin(boolean win) { this.win = win; }
     public void setGameOver(boolean gameOver) { this.gameOver = gameOver; }
+
+    
+    // public boolean isGameOver() { return gameOver;}
+
 }
 
 /*

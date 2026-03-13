@@ -19,6 +19,8 @@ public class GameLogic implements Cloneable {
     private int maxMistakes;
     private Difficulty difficulty;
 
+    public Difficulty getDifficulty() { return difficulty; }
+
     // NEW: Allow HangmanService to inject MongoDB words
     public GameLogic(List<String> words) {
     this.words.clear();
@@ -135,6 +137,9 @@ public class GameLogic implements Cloneable {
             return null;
         }
     }
+
+    
+    
 }
 
 /*

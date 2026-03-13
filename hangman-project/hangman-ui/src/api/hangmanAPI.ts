@@ -36,8 +36,29 @@ export async function fetchState(gameId: string) {
   return res.json();
 }
 
+export async function sendGuess(
+  gameId: string,
+  letter: string,
+  opts?: { playerId?: string; playerName?: string; startTime?: number }
+) {
+  const params = new URLSearchParams();
+  if (opts?.playerId)   params.set("playerId", opts.playerId);
+  if (opts?.playerName) params.set("playerName", opts.playerName);
+  if (opts?.startTime)  params.set("startTime", String(opts.startTime));
 
-export async function sendGuess(gameId: string, letter: string) {
+  const res = await fetch(
+    url(`/api/hangman/${encodeURIComponent(gameId)}/guess` + (params.toString() ? `?${params}` : "")),
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ letter })
+    }
+  );
+  if (!res.ok) throw new Error(`Failed to guess letter (HTTP ${res.status})`);
+  return res.json();
+}
+
+/*export async function sendGuess(gameId: string, letter: string) {
   const res = await fetch(
     url(`/api/hangman/${encodeURIComponent(gameId)}/guess`),
     {
@@ -48,7 +69,7 @@ export async function sendGuess(gameId: string, letter: string) {
   );
   if (!res.ok) throw new Error(`Failed to guess letter (HTTP ${res.status})`);
   return res.json();
-}
+}*/
 
 /*
 // Central API layer for calling Spring Boot backend

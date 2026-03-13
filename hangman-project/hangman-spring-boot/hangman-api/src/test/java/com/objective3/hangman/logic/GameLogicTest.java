@@ -5,12 +5,16 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 
 class GameLogicTest {
 
     @Test
     void startGame_initializesState() {
-        GameLogic game = new GameLogic();
+        // GameLogic game = new GameLogic();
+        List<String> testWords = List.of("galaxy", "nebula", "cosmos");
+        GameLogic game = new GameLogic(testWords);
         game.startGame(Difficulty.EASY);
 
         var state = game.getState();
@@ -21,7 +25,9 @@ class GameLogicTest {
 
     @Test
     void guess_rejectsNonLetter() {
-        GameLogic game = new GameLogic();
+        // GameLogic game = new GameLogic();
+        List<String> testWords = List.of("galaxy", "nebula", "cosmos");
+        GameLogic game = new GameLogic(testWords);
         game.startGame(Difficulty.MEDIUM);
 
         assertThrows(InvalidGuessException.class, () -> game.guess('1'));

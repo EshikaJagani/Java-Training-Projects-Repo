@@ -17,12 +17,15 @@ public class HangmanService {
 
     private final HangmanRepository repository;
 
+    private final HighScoreService highScoreService;
+
     // public HangmanService(HangmanRepository repository) {
     //     this.repository = repository;
     // }
-    public HangmanService(HangmanRepository repository, WordService wordService) {
+    public HangmanService(HangmanRepository repository, WordService wordService, HighScoreService highScoreService) {
     this.repository = repository;
     this.wordService = wordService;
+    this.highScoreService = highScoreService;
 }
 
     public String createGame(Difficulty difficulty) {
@@ -49,13 +52,39 @@ public class HangmanService {
             return id;
     }
 
-    public GameStateResponse guess(String gameId, char letter) {
+    public GameStateResponse guess(String gameId, char letter, String playerId, String playerName, long startTime) {
+
+        GameLogic game = repository.findById(gameId)
+            .orElseThrow(() -> new GameNotFoundException("Game not found: " + gameId));
+
+        // Let the game process the guess
+        game.guess(letter);
+
+        GameStateResponse state = game.getState();
+
+        // If gameOver → save high score
+        if (state.isGameOver()) {
+            int timeTaken = (int)((System.currentTimeMillis() - startTime) / 1000);
+
+            highScoreService.saveScore(
+                playerId,
+                playerName,
+                game.getDifficulty().name(),
+                state.getMistakes(),
+                timeTaken,
+                state.isWin()
+            );
+        }
+
+        return state;
+    }
+    /*public GameStateResponse guess(String gameId, char letter) {
         GameLogic game = repository.findById(gameId)
                 .orElseThrow(() -> new GameNotFoundException("Game not found: " + gameId));
 
         game.guess(letter); // may throw InvalidGuessException (handled by advice)
         return game.getState();
-    }
+    }*/
 
     public GameStateResponse getState(String gameId) {
         GameLogic game = repository.findById(gameId)
